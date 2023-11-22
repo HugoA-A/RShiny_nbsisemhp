@@ -1,6 +1,6 @@
 # RShiny_NaiveBayesClassifier_PMH
 
-We've created an RShiny application to use our newly created package name (lien). The application is disponible on shinyapp.io "lien".
+We've created an RShiny application to use our created package name (lien). The application is disponible on shinyapp.io "lien".
 
 ### Interface and componant 
 
