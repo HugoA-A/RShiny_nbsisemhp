@@ -2,7 +2,6 @@
 server <- function(input, output, session) {
   set.seed(1)
   
-  
   nb_model <- reactiveVal(naivebayes_classifier$new())
   
   # Store loaded data
@@ -205,6 +204,43 @@ server <- function(input, output, session) {
     }
   })
   
+  # Initialize reactiveVal for probabilities
+  prediction_proba <- reactiveVal(NULL)
   
+  # Observe event for the Generate Probabilities button
+  observeEvent(input$generateProbabilitiesButton, {
+    # Accessing stored results
+    stored_results <- split_results()
+    
+    selected_variables <- input$selectedXVariables
+    X_test <- as.data.frame(stored_results$X_test[, selected_variables])
+    
+    # Using the test set to generate probabilities
+    preds_prob <- nb_model()$predict_proba(X_test)
+    # Store probabilities
+    prediction_proba(preds_prob)
+  })
+  
+  # Output for displaying probabilities
+  output$probabilityOutput <- renderPrint({
+    probs <- prediction_proba()
+    if (!is.null(probs)) {
+      print(probs)
+    } else {
+      return(NULL)
+    }
+  })
+  
+  # Observer for the "Plot" button
+  observeEvent(input$plotButton, {
+    # Check if nb_model has been trained
+
+    # Call the plot function and store the plot
+    nb_plot <- plot(nb_model())
+    # Display the plot
+    output$plot_freq <- renderPlotly({
+      nb_plot
+     })
+  })
   
 }

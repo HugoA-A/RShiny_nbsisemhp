@@ -39,22 +39,37 @@ ui <- navbarPage(
   ),
   
   tabPanel("Fit",
-           sidebarLayout(
-             sidebarPanel(
-               sliderInput("testSize", "Select the size of test dataset",
-                           min = 0.0, max = 1.0, value = 0.3, step = 0.01),
-               actionButton("splitDataButton", "Split Data"),
-               selectizeInput("selectedXVariables", "Select explanatory varables",
-                              choices = NULL, multiple = TRUE),
-               actionButton("trainButton", "Train model")
-               
-             ),
-             mainPanel(
-               verbatimTextOutput("message"),
-               verbatimTextOutput("message_split")
-               
-             )
+           tabsetPanel(
+            tabPanel("Fit",
+                     sidebarLayout(
+                       sidebarPanel(
+                         sliderInput("testSize", "Select the size of test dataset",
+                                     min = 0.0, max = 1.0, value = 0.3, step = 0.01),
+                         actionButton("splitDataButton", "Split Data"),
+                         selectizeInput("selectedXVariables", "Select explanatory varables",
+                                        choices = NULL, multiple = TRUE),
+                         actionButton("trainButton", "Train model")
+                         
+                       ),
+                       mainPanel(
+                         verbatimTextOutput("message"),
+                         verbatimTextOutput("message_split")
+                         
+                       )
+                     )
+                     ),
+            tabPanel("Plot",
+                     sidebarLayout(
+                       sidebarPanel(
+                         actionButton("plotButton", "Show plot")
+                       ),
+                       mainPanel(
+                         plotlyOutput("plot_freq")
+                       )
+                     )
+                     )
            )
+
   ),
   
   tabPanel("Predict",
@@ -88,6 +103,16 @@ ui <- navbarPage(
                             helpText("Prediction Results Using Testing data"),
                             verbatimTextOutput('scoreTable')
                           )
+                        )
+                      )
+             ),
+             tabPanel("Probability",
+                      sidebarLayout(
+                        sidebarPanel(
+                          actionButton("generateProbabilitiesButton", "Generate Probabilities")
+                        ),
+                        mainPanel(
+                          verbatimTextOutput("probabilityOutput")
                         )
                       )
              )
