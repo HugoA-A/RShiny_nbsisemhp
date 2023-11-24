@@ -5,6 +5,9 @@ library(DT)
 library(shinythemes)
 library(shinydashboard)
 library(summarytools)
+library(devtools)
+install_github("Pioterr/nbsisemhp")
+library(nbsisemhp)
 
 ### Defining the user interface
 ui <- navbarPage(
